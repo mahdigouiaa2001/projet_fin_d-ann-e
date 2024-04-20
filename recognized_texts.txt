@@ -1,0 +1,2 @@
+static\cropped_images\cropped_1.jpg ieee 0.9907
+static\cropped_images\cropped_2.jpg vtools 0.9457

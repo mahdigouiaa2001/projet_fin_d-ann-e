@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Processing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        input[type="file"], button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .image-container img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .image-container img:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+        .cropped-image {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .cropped-image p {
+            background-color: #f2f2f2;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Processing</h1>
+    <form action="{{ url_for('index') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Process Image</button>
+    </form>
+    {% if original_image %}
+    <h2>Original Image</h2>
+    <div class="image-container">
+        <img src="{{ url_for('static', filename=original_image) }}" alt="Original Image">
+    </div>
+    {% endif %}
+    {% if processed_image %}
+    <h2>Processed Image</h2>
+    <div class="image-container">
+        <img src="{{ url_for('static', filename=processed_image) }}" alt="Processed Image">
+    </div>
+    {% endif %}
+    {% if cropped_images and detected_words %}
+    <h2>Cropped Images</h2>
+    <div class="image-container">
+        {% for i in range(cropped_images|length) %}
+        <div class="cropped-image">
+            <img src="{{ url_for('static', filename='cropped_images/' + cropped_images[i]) }}" alt="Cropped Image">
+            <p>{{ detected_words[i] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if detected_words %}
+    <h2>Detected Words</h2>
+    <ul>
+        {% for word in detected_words %}
+        <li>{{ word }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if log_demo %}
+    <h2>Log (demo.py)</h2>
+    <pre>{{ log_demo }}</pre>
+    {% endif %}
+</body>
+</html>

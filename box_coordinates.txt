@@ -1,0 +1,2 @@
+static\temp.jpg 167 23 247 50
+static\temp.jpg 167 62 272 91
